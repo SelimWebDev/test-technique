@@ -1,12 +1,12 @@
 import {ApolloProvider} from "@apollo/client";
 import {AnilistClient} from "../http/AnilistClient";
-import {DefaultComponent} from "../components/DefaultComponent";
+import {PaginatedAnimes} from "../components/PaginatedAnimes";
 
 export default function Home() {
   return (
     <ApolloProvider client={AnilistClient}>
       <div className="container">
-        <DefaultComponent/>
+        <PaginatedAnimes itemsPerPage={5}/>
         <style jsx global>{`
         html,
         body {
