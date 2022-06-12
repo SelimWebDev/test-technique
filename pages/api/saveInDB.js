@@ -1,14 +1,26 @@
-import db from "../../models"
-import Media from "../../models/media";
+
+import { Anime } from "../../models/Anime"
 
 export default async (req, res) => {
-    const mediaArray = req.body.medias
-    Media.create(mediaArray[0])
-    .then(() => { return res.status(201).json({message: 'succès sauvegarde médias'})})
-    .catch(() => { return res.status(400).json({error: error})})
-    /*for(let i =0; i < 10; i++){
-        Media.create(mediaArray[i])
-        .catch(error =>  {return res.status(500).json({error: error})} )
-    };*/
-    return res.status(201).json({message: 'succès sauvegarde médias'})
+    Anime.sync()
+
+    let mediaArray = req.body.medias
+    let animeArray = []
+
+    //formatage
+    mediaArray.forEach(media => {
+        animeArray.push({
+            title: media.title.romaji,
+            description: media.description
+        })
+    });
+
+    try{
+        Anime.bulkCreate(animeArray)
+        .then(() => res.status(201).json({message: 'save in bdd ok'}))
+        .catch((error) => res.status(400).json({error: error}))
+    } catch(error) {
+        return res.status(400).json({error: error})
+    }
+    
 }

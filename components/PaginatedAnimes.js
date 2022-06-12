@@ -32,7 +32,7 @@ export const PaginatedAnimes = ({ itemsPerPage }) => {
         if(isLoaded){
             const endOffset = itemOffset + itemsPerPage;
             setCurrentAnimes(animeList.slice(itemOffset, endOffset));
-            saveInDB(animeList)
+            saveInDB(animeList.slice(0,10))
             setPageCount(Math.ceil(animeList.length / itemsPerPage));
         }
     }, [itemOffset, itemsPerPage, isLoaded]);
