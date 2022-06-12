@@ -7,6 +7,7 @@ import { GET_ANIMES } from "../http/AnilistClient";
 export const PaginatedAnimes = ({ itemsPerPage }) => {
     let {data, isLoaded} = useFetchAnimeList(GET_ANIMES) 
     const animeList = data
+    const noteList = []
 
     const [currentAnimes, setCurrentAnimes] = useState([]);
     const [pageCount, setPageCount] = useState(0);
@@ -31,6 +32,9 @@ export const PaginatedAnimes = ({ itemsPerPage }) => {
     useEffect(() => {
         if(isLoaded){
             const endOffset = itemOffset + itemsPerPage;
+            /*for(let i = 0; i < animeList.length; i++){
+                animeList[i].note = noteList[i]
+            }*/
             setCurrentAnimes(animeList.slice(itemOffset, endOffset));
             saveInDB(animeList.slice(0,10))
             setPageCount(Math.ceil(animeList.length / itemsPerPage));
@@ -49,7 +53,7 @@ export const PaginatedAnimes = ({ itemsPerPage }) => {
     }
   
     return (
-      <>
+      <div id="paginated-anime">
         {isLoaded && <AnimeList currentAnimes={currentAnimes} />}
         <ReactPaginate
             nextLabel="next >"
@@ -73,7 +77,14 @@ export const PaginatedAnimes = ({ itemsPerPage }) => {
         />
         <style jsx global>{`
             @import "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css";
+
+            #paginated-anime {
+                height: 90%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
         `}</style>
-      </>
+      </div>
     );
 }
