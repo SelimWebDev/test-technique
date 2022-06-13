@@ -3,6 +3,8 @@ import { useFetchAnimeList } from "../hooks/useFetchAnimeList";
 import React, { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import { GET_ANIMES } from "../http/AnilistClient";
+import { saveInDB } from "../http/saveInDb";
+import { callScrapper } from "../http/callScrapper";
 
 export const PaginatedAnimes = ({ itemsPerPage }) => {
     let {data, isLoaded} = useFetchAnimeList(GET_ANIMES) 
@@ -14,24 +16,10 @@ export const PaginatedAnimes = ({ itemsPerPage }) => {
 
     const [itemOffset, setItemOffset] = useState(0);
   
-    function saveInDB(medias){
-      fetch('api/saveInDB', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-        },
-        body: JSON.stringify({
-            medias: medias
-        })
-      })
-      .then(res => console.log(res))
-      .catch(error => console.log(error))
-    }
-
     useEffect(() => {
         if(isLoaded){
             const endOffset = itemOffset + itemsPerPage;
+            callScrapper()
             /*for(let i = 0; i < animeList.length; i++){
                 animeList[i].note = noteList[i]
             }*/
