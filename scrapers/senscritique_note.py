@@ -43,4 +43,6 @@ def connect_to_database():
 """
 Ajouter votre logique en dessous ⬇️
 """
+connection = connect_to_database()
+print(connection)
 print("Hello world ! 👋🏻")

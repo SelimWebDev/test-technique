@@ -19,10 +19,11 @@ export const PaginatedAnimes = ({ itemsPerPage }) => {
     useEffect(() => {
         if(isLoaded){
             const endOffset = itemOffset + itemsPerPage;
-            callScrapper()
-            /*for(let i = 0; i < animeList.length; i++){
+            /*
+            for(let i = 0; i < animeList.length; i++){
                 animeList[i].note = noteList[i]
-            }*/
+            }
+            */
             setCurrentAnimes(animeList.slice(itemOffset, endOffset));
             saveInDB(animeList.slice(0,10))
             setPageCount(Math.ceil(animeList.length / itemsPerPage));
