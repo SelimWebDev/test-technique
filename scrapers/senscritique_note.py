@@ -2,6 +2,7 @@ import requests as r
 import mariadb
 import json
 import os, sys
+from bs4 import BeautifulSoup
 
 """
 Fonction permettant de récupérer l'URL SensCritique d'un animé
@@ -39,6 +40,21 @@ def connect_to_database():
         print(f"Error connecting to MariaDB Platform: {e}")
         sys.exit(1)
 
+"""
+Recupération des notes senscritique
+"""
+def get_sc_anime_rating(url):
+    if(url == None):
+        return None
+    else:
+        url = url
+        headers = {
+            "x-requested-with": "XmlHttpRequest"
+        }
+        htmlPage = r.get(url, headers=headers)
+        soup = BeautifulSoup(htmlPage.content, "html.parser")
+        rating = soup.find("div", class_="fNqmsn").text
+        return rating
 
 """
 Ajouter votre logique en dessous ⬇️
@@ -50,19 +66,31 @@ connection = connect_to_database()
 cursor = connection.cursor()
 cursor.execute("SELECT title FROM animes;")
 
+"""
+on retient les 5 premiers titres
+"""
 i = 0
-for row in cursor:
-    allTitle.append(row[0])
+for row in cursor:                      
+    allTitle.append(row[0])         
     i += 1
     if(i==5):
         break
 
 connection.close()
 
-
+"""
+on recupère l'url sc pour chaque titre
+"""
 for title in allTitle:
     scUrl = get_sc_anime_url(title)
     allScUrl.append(scUrl)
 
-print(allScUrl)
+"""
+pour chaque url on récupère l'htlm et le parse pour la note 
+"""
+allRating = []
+for url in allScUrl:
+    rating = get_sc_anime_rating(url)
+    allRating.append(rating)
 
+print(allRating)
