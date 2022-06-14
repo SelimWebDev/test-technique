@@ -43,6 +43,26 @@ def connect_to_database():
 """
 Ajouter votre logique en dessous ⬇️
 """
+allTitle = []
+allScUrl = []
+
 connection = connect_to_database()
-print(connection)
-print("Hello world ! 👋🏻")
+cursor = connection.cursor()
+cursor.execute("SELECT title FROM animes;")
+
+i = 0
+for row in cursor:
+    allTitle.append(row[0])
+    i += 1
+    if(i==5):
+        break
+
+connection.close()
+
+
+for title in allTitle:
+    scUrl = get_sc_anime_url(title)
+    allScUrl.append(scUrl)
+
+print(allScUrl)
+

@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import { GET_ANIMES } from "../http/AnilistClient";
 import { saveInDB } from "../http/saveInDb";
-import { callScrapper } from "../http/callScrapper";
 
 export const PaginatedAnimes = ({ itemsPerPage }) => {
     let {data, isLoaded} = useFetchAnimeList(GET_ANIMES) 

@@ -2,8 +2,6 @@
 import { Anime } from "../../models/Anime"
 
 export default async (req, res) => {
-    Anime.sync()
-
     let mediaArray = req.body.medias
     let animeArray = []
 
@@ -16,7 +14,8 @@ export default async (req, res) => {
     });
 
     try{
-        Anime.bulkCreate(animeArray)
+        Anime.sync()
+        .then(() => Anime.bulkCreate(animeArray))
         .then(() => res.status(201).json({message: 'save in bdd ok'}))
         .catch((error) => res.status(400).json({error: error}))
     } catch(error) {

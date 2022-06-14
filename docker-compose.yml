@@ -16,7 +16,7 @@ services:
   db:
     image: mariadb:10.5.9
     ports:
-      - 3306:3306
+      - 3300:3300
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
