@@ -2,14 +2,14 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.createTable('anime', {
+    return queryInterface.createTable('rating', {
       id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true
       },
       title: Sequelize.STRING,
-      description: Sequelize.TEXT
+      rate: Sequelize.TEXT
     })
   },
 

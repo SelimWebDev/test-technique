@@ -59,12 +59,26 @@ def get_sc_anime_rating(url):
 """
 Ajouter votre logique en dessous ⬇️
 """
+
+def updateOneRate(rating, title):
+    if(rating != None):
+        return f"UPDATE animes SET rating = {rating}  WHERE title = '{title}';"
+    else:
+        return f"UPDATE animes SET rating = NULL WHERE title = '{title}'"
+
 allTitle = []
 allScUrl = []
 
+selectAllTitle = "SELECT title FROM animes;"
+
 connection = connect_to_database()
 cursor = connection.cursor()
-cursor.execute("SELECT title FROM animes;")
+
+try:
+    cursor.execute(selectAllTitle)
+except mariadb.Error as e:
+    print(f"Error: {e}")
+
 
 """
 on retient les 5 premiers titres
@@ -73,10 +87,8 @@ i = 0
 for row in cursor:                      
     allTitle.append(row[0])         
     i += 1
-    if(i==5):
+    if(i==6):
         break
-
-connection.close()
 
 """
 on recupère l'url sc pour chaque titre
@@ -93,4 +105,18 @@ for url in allScUrl:
     rating = get_sc_anime_rating(url)
     allRating.append(rating)
 
-print(allRating)
+for i in range(len(allRating)):
+    mysqlReq = updateOneRate(allRating[i], allTitle[i])
+    print(mysqlReq)
+    try:
+        cursor.execute(mysqlReq)
+        connection.commit()
+    except mariadb.Error as e:
+        print(f"Error: {e}")
+
+
+connection.close()
+
+
+
+

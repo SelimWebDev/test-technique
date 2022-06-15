@@ -7,5 +7,9 @@ export const Anime = db.sequelize.define('anime', {
         primaryKey: true
       },
     title: db.Sequelize.STRING,
-    description: db.Sequelize.TEXT
+    description: db.Sequelize.TEXT,
+    rating: {
+      type: db.Sequelize.FLOAT,
+      allowNull: true
+    }
 });
