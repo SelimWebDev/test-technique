@@ -105,6 +105,9 @@ for url in allScUrl:
     rating = get_sc_anime_rating(url)
     allRating.append(rating)
 
+"""
+Pour chaque note, on créer une requête d'update avec la note et le titre et on l'envoie
+"""
 for i in range(len(allRating)):
     mysqlReq = updateOneRate(allRating[i], allTitle[i])
     print(mysqlReq)
