@@ -81,7 +81,7 @@ except mariadb.Error as e:
 
 
 """
-on retient les 5 premiers titres
+on retient les 6 premiers titres
 """
 i = 0
 for row in cursor:                      
